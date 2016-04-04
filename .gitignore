@@ -1,0 +1,12 @@
+bin
+dist
+node_modules
+tmp
+*.exe
+bindata*
+npm-debug.log
+bundle.js
+client/lib
+typings
+data
+assets/css/*.css

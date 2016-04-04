@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "jsx": "react",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "declaration": false,
+        "newLine": "LF",
+        "rootDir": "client",
+        "sourceMap": true
+    },
+    "exclude": [
+        "lib",
+        "typings/main.d.ts",
+        "typings/main",
+        "node_modules"
+    ]
+}
