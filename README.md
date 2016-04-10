@@ -2,7 +2,10 @@
 
 - [About](#about)
 - [Development](#development)
-- [Setup](#setup)
+ - [Requirements](#requirements)
+ - [Setup](#setup)
+ - [Run with development mode](#run-with-development-mode)
+ - [Release Build](#release-build)
 - [License](#license)
 
 ## About
