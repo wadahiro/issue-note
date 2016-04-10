@@ -11,17 +11,17 @@ export class ModalTriggerButton extends React.Component<ModalButtonTriggerProps,
         type: '',
         size: ''
     };
-    
+
     state = {
         show: false
     };
-    
+
     open = (e) => {
         this.setState({
             show: true
         });
     };
-    
+
     close = (e) => {
         this.setState({
             show: false
@@ -38,7 +38,7 @@ export class ModalTriggerButton extends React.Component<ModalButtonTriggerProps,
                 <Button {...this.props} onClick={this.open}>
                     { this.props.children }
                 </Button>
-                { modal }
+                { this.state.show && modal }
             </div>
         );
     }

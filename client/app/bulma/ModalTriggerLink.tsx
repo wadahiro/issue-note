@@ -36,7 +36,7 @@ export class ModalTriggerLink extends React.Component<ModalLinkTriggerProps, any
                 <a onClick={this.open}>
                     { this.props.children }
                 </a>
-                { modal }
+                { this.state.show && modal }
             </div>
         );
     }
