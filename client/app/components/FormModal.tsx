@@ -43,5 +43,5 @@ export abstract class FormModal extends React.Component<any, any> {
     }
 
     abstract submitForm();
-    abstract renderForm();
+    abstract renderForm(): JSX.Element;
 }
