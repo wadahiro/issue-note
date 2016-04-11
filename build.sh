@@ -16,7 +16,7 @@ vendor/bin/go-bindata -o ./server/bindata.go assets/... ./server/templates/...
 # build server
 vendor/bin/gox -cgo \
  -ldflags "-X main.CommitHash=$COMMIT_HASH -X main.Version=$VERSION -X main.BuildTarget=production" \
- -osarch="windows/amd64" \
+ -osarch="$1" \
  -output=dist/issue-memo-${VERSION}-{{.OS}}-{{.Arch}} \
  ./server/...
 
