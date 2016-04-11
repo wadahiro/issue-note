@@ -14,6 +14,8 @@ export default class IssueTable extends React.Component<any, any> {
                 <B.Table
                     fixed={true}
                     columnMetadata={columnMetadata}
+                    enableSort={true}
+                    initialSort='updated'
                     showPagination={true}
                     resultsPerPage={20}
                     results={issues}
