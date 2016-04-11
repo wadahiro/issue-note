@@ -3,6 +3,7 @@
 - [About](#about)
 - [How to use](#how-to-use)
  - [Install](#install)
+ - [Sync Setting](#sync-setting)
 - [Development](#development)
  - [Requirements](#requirements)
  - [Setup](#setup)
