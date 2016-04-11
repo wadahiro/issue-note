@@ -5,6 +5,7 @@ build:
        name: set nodejs emvironment
        code: |
           # instll latest nodejs
+          sudo apt-get update
           sudo apt-get install software-properties-common
           sudo add-apt-repository -y ppa:chris-lea/node.js
 
