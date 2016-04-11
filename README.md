@@ -1,6 +1,8 @@
 # ISSUE-MEMO
 
 - [About](#about)
+- [How to use](#how-to-use)
+ - [Install](#install)
 - [Development](#development)
  - [Requirements](#requirements)
  - [Setup](#setup)
@@ -12,6 +14,30 @@
 
 Aggregate issues from external [Issue Tracking System (ITS)](https://en.wikipedia.org/wiki/Issue_tracking_system) and add your own memo.
 Currently support [Atlassian JIRA](https://jira.atlassian.com) only.
+
+## How to use
+### Install
+It can be super easy to install ! You can get a binary file from [Release Page](https://github.com/wadahiro/issue-memo/releases).
+Then uncompress the file and execute it with **run** argument. That's all !!
+In addition, you can specify a port number of HTTP server like **--port 8000** option.
+
+```
+tar xvf issue-memo-x.y.z-linux-amd64.tar.gz
+./issue-memo-x.y.z-linux-amd64 --port 8000 run
+COMMIT_HASH:  ...
+VERSION:  x.y.z
+Started sync schduler...
+assets/js/bundle.js loaded
+assets/js/bundle.js loaded
+assets/js/bundle.js loaded
+assets/js/bundle.js loaded
+assets/js/bundle.js loaded
+```
+
+Now, You can access to [http://localhost:8000](http://localhost:8000).
+
+### Sync Setting
+You can add sync settings from the top-right corner of the screen gear icon.
 
 ## Development
 
