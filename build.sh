@@ -7,8 +7,8 @@ export NODE_ENV=production
 echo "Build $VERSION ($COMMIT_HASH) for $NODE_ENV"
 
 # build client
-node-sass client/css/main.scss assets/css/style.css
-webpack -p --config ./client/webpack/webpack.config.js
+node_modules/.bin/node-sass client/css/main.scss assets/css/style.css
+node_modules/.bin/webpack -p --config ./client/webpack/webpack.config.js
 
 # generate bindata for client assets
 vendor/bin/go-bindata -o ./server/bindata.go assets/... ./server/templates/... 

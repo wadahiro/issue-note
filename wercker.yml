@@ -1,18 +1,28 @@
-box: google/golang
+box: golang
 build:
   steps:
     - script:
-       name: set nodejs emvironment
+       name: apt-get
        code: |
-          # instll latest nodejs
           sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository -y ppa:chris-lea/node.js
-
-          sudo apt-get install -y nodejs
+          sudo apt-get -y install wget xz-utils
+    - script:
+       name: download nodejs
+       code: |
+          wget https://nodejs.org/dist/v5.10.1/node-v5.10.1-linux-x64.tar.xz
+    - script:
+       name: install nodejs
+       code: |
+          tar -C /tmp -Jxf node-v5.10.1-linux-x64.tar.xz
+    - script:
+       name: setup nodejs emvironment
+       code: |
+          export PATH=/tmp/node-v5.10.1-linux-x64/bin:$PATH
+    - script:
+       name: install dependencies
+       code: |
           node --version
           sudo npm config set registry http://registry.npmjs.org/
-          sudo npm update
           sudo npm install
           sudo npm install -g typings
           sudo typings install
@@ -24,20 +34,37 @@ build:
     - script:
         name: go get
         code: |
+          go version
           go get -u github.com/mattn/gom
+    - script:
+        name: gom install
+        code: |
+          gom install
     - script:
         name: goxc build & archive
         code: |
           npm run build-linux64
+    - script:
+        name: move to output
+        code: |
+          export RELEASE_TAG=$(node -pe 'require("./package.json").version')
+          echo "${RELEASE_TAG}" > $WERCKER_OUTPUT_DIR/.release_tag
+          mv dist/issue-memo-${RELEASE_TAG}-* $WERCKER_OUTPUT_DIR/
 deploy:
   steps:
     - script:
+       name: apt-get
+       code: |
+          sudo apt-get update
+          sudo apt-get -y install file
+    - script:
         name: restore release tag
         code: |
-          export RELEASE_VERSION=$(node -pe 'require("./package.json").version')
+          export RELEASE_TAG=$(cat .release_tag)
+          ls -al .
     - wercker/github-create-release:
         token: $GITHUB_TOKEN
-        tag: $RELEASE_VERSION
+        tag: v${RELEASE_TAG}
     - wercker/github-upload-asset:
         token: $GITHUB_TOKEN
-        file: dist/issue-memo-${RELEASE_VERSION}-linux-amd64.tar.gz
+        file: issue-memo-${RELEASE_TAG}-linux-amd64.tar.gz
