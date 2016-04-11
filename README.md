@@ -17,25 +17,28 @@ Currently support [Atlassian JIRA](https://jira.atlassian.com) only.
 
 ### Requirements 
 
-* [Golang](http://golang.org/)
-* [Node.js](https://nodejs.org/)
+* [Golang 1.6](http://golang.org/)
+* [Node.js 5.x](https://nodejs.org/)
 
 ### Setup
 
-1. Install some golang tools by `go get`
+1. Install Golang tool [GOM](https://github.com/mattn/gom) and install Golang dependencies by [GOM](https://github.com/mattn/gom) .
 
  ```bash
-go get -u github.com/jteeuwen/go-bindata/...
-go get -u github.com/elazarl/go-bindata-assetfs/...
-go get -u github.com/gin-gonic/gin
-go get -u github.com/gin-gonic/contrib/static
-go get -u github.com/pilu/fresh
-...(TBA)
+go get -u github.com/mattn/gom
+gom install
  ```
-2. Install JavaScript dependencies
+2. Install gcc by OS package manager. You can use [MinGW](http://www.mingw.org/) for Windows build.
+3. Install JavaScript dependencies.
 
  ```bash
 npm install
+ ```
+4. Install [typings](https://github.com/typings/typings) and install TypeScript definitions.
+
+ ```
+npm install -g typings
+typings install
  ```
 
 ### Run with development mode
@@ -58,8 +61,14 @@ npm run devserver & fresh
 
 Run webpack with production mode, go-bindata and go build in turn. All you have to do is run `npm run build`. The artifact is created under `./dist` directory.
 
+#### For Linux 
 ```bash
-npm run build
+npm run build-linux64
+```
+
+#### For Windows 
+```bash
+npm run build-win64
 ```
 
 ## License
