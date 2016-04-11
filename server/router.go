@@ -113,7 +113,7 @@ func (b *binaryFileSystem) Exists(prefix string, filepath string) bool {
 }
 
 func BinaryFileSystem(root string) *binaryFileSystem {
-	fs := &assetfs.AssetFS{Asset, AssetDir, AssetInfo, root}
+	fs := &assetfs.AssetFS{Asset, AssetDir, root}
 	return &binaryFileSystem{
 		fs,
 	}

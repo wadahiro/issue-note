@@ -11,10 +11,10 @@ node-sass client/css/main.scss assets/css/style.css
 webpack -p --config ./client/webpack/webpack.config.js
 
 # generate bindata for client assets
-go-bindata -o ./server/bindata.go assets/... ./server/templates/... 
+vendor/bin/go-bindata -o ./server/bindata.go assets/... ./server/templates/... 
 
 # build server
-gox -cgo \
+vendor/bin/gox -cgo \
  -ldflags "-X main.CommitHash=$COMMIT_HASH -X main.Version=$VERSION -X main.BuildTarget=production" \
  -osarch="windows/amd64" \
  -output=dist/issue-memo-${VERSION}-{{.OS}}-{{.Arch}} \

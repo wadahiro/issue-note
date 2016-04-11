@@ -8,3 +8,6 @@ gom 'github.com/gin-gonic/gin'
 gom 'gopkg.in/olebedev/go-duktape-fetch.v2'
 gom 'gopkg.in/olebedev/go-duktape.v2'
 gom 'github.com/robfig/cron'
+
+gom 'github.com/pilu/fresh'
+gom 'github.com/mitchellh/gox'
