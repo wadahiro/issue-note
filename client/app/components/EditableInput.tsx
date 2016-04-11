@@ -52,7 +52,8 @@ export default class EditableInput extends React.Component<Props, any> {
                 const preStyle = {
                     background: 'none',
                     color: '#222324',
-                    fontFamily: '"Helvetica Neue", "Helvetica", "Arial", sans-serif'
+                    fontFamily: '"Helvetica Neue", "Helvetica", "Arial", sans-serif',
+                    whiteSpace: 'pre-wrap'
                 };
 
                 return (
