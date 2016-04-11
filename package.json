@@ -6,8 +6,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build-win": "bash build.sh windows/amd64",
-    "build-linux": "bash build.sh linux/amd64",
+    "build-win64": "bash build.sh windows amd64",
+    "build-linux64": "bash build.sh linux amd64",
     "style": "node-sass client/css/main.scss assets/css/style.css",
     "bindata": "go-bindata -debug -o ./server/bindata.go assets/... ./server/templates/...",
     "dev": "webpack -w --config ./client/webpack/webpack.config.js",

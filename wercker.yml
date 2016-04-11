@@ -1,0 +1,42 @@
+box: google/golang
+build:
+  steps:
+    - script:
+       name: set nodejs emvironment
+       code: |
+          # instll latest nodejs
+          sudo apt-get install software-properties-common
+          sudo add-apt-repository -y ppa:chris-lea/node.js
+
+          sudo apt-get install nodejs
+          node --version
+          sudo npm config set registry http://registry.npmjs.org/
+          sudo npm update
+          sudo npm install
+          sudo npm install -g typings
+          sudo typings install
+    - setup-go-workspace
+    - script:
+        name: git version
+        code: |
+          git version
+    - script:
+        name: go get
+        code: |
+          go get -u github.com/mattn/gom
+    - script:
+        name: goxc build & archive
+        code: |
+          npm run build-linux64
+deploy:
+  steps:
+    - script:
+        name: restore release tag
+        code: |
+          export RELEASE_VERSION=$(node -pe 'require("./package.json").version')
+    - wercker/github-create-release:
+        token: $GITHUB_TOKEN
+        tag: $RELEASE_VERSION
+    - wercker/github-upload-asset:
+        token: $GITHUB_TOKEN
+        file: dist/issue-memo-${RELEASE_VERSION}-linux-amd64.tar.gz
