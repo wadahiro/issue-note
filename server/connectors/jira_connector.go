@@ -1,6 +1,7 @@
 package connector
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -64,8 +65,17 @@ func NewJiraConnector(repo repo.Repo) Connector {
 	return s
 }
 
+func newClient(insecure bool) *http.Client {
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure},
+		Proxy:           http.DefaultTransport.(*http.Transport).Proxy,
+	}
+	return &http.Client{Transport: tr}
+}
+
 func (this *JiraConnector) Sync(syncSetting *model.SyncSetting) {
-	resp, err := http.Get(syncSetting.FetchURL)
+	client := newClient(syncSetting.InsecureSkipVerify)
+	resp, err := client.Get(syncSetting.FetchURL)
 	if err != nil {
 		fmt.Println(err)
 		return

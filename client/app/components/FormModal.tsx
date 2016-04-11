@@ -10,7 +10,8 @@ export abstract class FormModal extends React.Component<any, any> {
 
     handleForm = (e) => {
         const name = e.target.name;
-        const value = e.target.value;
+        const checked = e.target.checked;
+        let value = e.target.type === 'checkbox' || e.target.type === 'radio' ? checked : e.target.value;
 
         this.setState({
             data: Object.assign({}, this.state.data, {

@@ -20,4 +20,7 @@ vendor/bin/gox -cgo \
  -output=dist/issue-memo-${VERSION}-{{.OS}}-{{.Arch}} \
  ./server/...
 
-tar cv dist/issue-memo-${VERSION}-$1-$2* | gzip > dist/issue-memo-${VERSION}-$1-$2.tar.gz
+mkdir dist
+pushd dist
+tar cv issue-memo-${VERSION}-$1-$2* | gzip > issue-memo-${VERSION}-$1-$2.tar.gz
+popd

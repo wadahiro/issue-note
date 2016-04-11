@@ -9,6 +9,7 @@ interface SyncSetting {
     name: string;
     type: string;
     fetchUrl: string;
+    insecureSkipVerify: boolean;
     schedule: string;
     issueUrl: string;
     description: string;
@@ -44,7 +45,7 @@ export default class SyncSettingsModal extends FormModal {
     }
 
     renderForm() {
-        const { name, type, fetchUrl, schedule, issueUrl, description } = this.state.data;
+        const { name, type, fetchUrl, insecureSkipVerify, schedule, issueUrl, description } = this.state.data;
         const { formType, currentIndex, settings, syncing } = this.state;
 
         const liStyle = {
@@ -88,6 +89,7 @@ export default class SyncSettingsModal extends FormModal {
                             <B.InputText name='name' label='Sync Name' value={name} onChange={this.handleForm} />
                             <B.Select name='type' label='Type' value={type} options={SyncTypes} onChange={this.handleForm} />
                             <B.InputText name='fetchUrl' label='Fetch URL' value={fetchUrl} onChange={this.handleForm} />
+                            <B.Checkbox name='insecureSkipVerify' label='Insecure skip verify' checked={insecureSkipVerify} onChange={this.handleForm} />
                             <B.Select name='schedule' label='Sync Schedule' value={schedule} options={SchedleTypes} onChange={this.handleForm} />
                             <B.InputText name='issueUrl' label='Issue Base URL' value={issueUrl} onChange={this.handleForm} />
                             <B.TextArea name='description' label='Description' value={description} onChange={this.handleForm} />
@@ -187,6 +189,7 @@ function initData(): SyncSetting {
         name: '',
         type: 'jira',
         fetchUrl: '',
+        insecureSkipVerify: false,
         issueUrl: '',
         schedule: '0',
         description: ''

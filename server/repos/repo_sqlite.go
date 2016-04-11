@@ -32,6 +32,7 @@ func InitSQLite(dataDir string) Repo {
 		name text not null,
 		type text not null,
 		fetchUrl text not null,
+		insecureSkipVerify integer not null,
 		schedule text not null,
 		issueUrl text not null,
 		description text
@@ -363,7 +364,7 @@ func (this *RepoSQLiteImpl) QueryIssues(query map[string]string) (*QueryIssuesRe
 		strCreated := created.Format(JIRA_DATE_FORMAT)
 		strUpdated := updated.Format(JIRA_DATE_FORMAT)
 		strCheckedDate := checkedDate.Format(JIRA_DATE_FORMAT)
-		
+
 		// log.Println("checkedDate: ", checkedDate)
 
 		result := &model.Issue{
@@ -403,7 +404,7 @@ func (this *RepoSQLiteImpl) CreateSyncSetting(_id string, model *model.SyncSetti
 	}
 	model.Rev = "0"
 
-	sql := "insert into syncsettings values (?, ?, ?, ?, ?, ?, ?, ?)"
+	sql := "insert into syncsettings values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	stmt, err := db.Prepare(sql)
 	if err != nil {
 		log.Printf("%q: %s\n", err, sql)
@@ -416,6 +417,7 @@ func (this *RepoSQLiteImpl) CreateSyncSetting(_id string, model *model.SyncSetti
 		model.Name,
 		model.Type,
 		model.FetchURL,
+		model.InsecureSkipVerify,
 		model.Schedule,
 		model.IssueURL,
 		model.Description,
@@ -432,7 +434,7 @@ func (this *RepoSQLiteImpl) ReadSyncSetting(_id string) (*model.SyncSetting, err
 
 	sql := `
 	select
-		_id, _rev, name, type, fetchUrl, issueUrl, description
+		_id, _rev, name, type, fetchUrl, insecureSkipVerify, issueUrl, description
 	from syncsettings
 	where _id = ?
 	`
@@ -448,23 +450,25 @@ func (this *RepoSQLiteImpl) ReadSyncSetting(_id string) (*model.SyncSetting, err
 	var name string
 	var syncType string
 	var fetchURL string
+	var insecureSkipVerify bool
 	var issueURL string
 	var description string
 
-	err = stmt.QueryRow(_id).Scan(&_id, &_rev, &name, &syncType, &fetchURL, &issueURL, &description)
+	err = stmt.QueryRow(_id).Scan(&_id, &_rev, &name, &syncType, &fetchURL, &insecureSkipVerify, &issueURL, &description)
 	if err != nil {
 		log.Printf("%q: %s\n", err, sql)
 		return nil, err
 	}
 
 	result := &model.SyncSetting{
-		ID:          _id,
-		Rev:         _rev,
-		Name:        name,
-		Type:        syncType,
-		FetchURL:    fetchURL,
-		IssueURL:    issueURL,
-		Description: description,
+		ID:                 _id,
+		Rev:                _rev,
+		Name:               name,
+		Type:               syncType,
+		FetchURL:           fetchURL,
+		InsecureSkipVerify: insecureSkipVerify,
+		IssueURL:           issueURL,
+		Description:        description,
 	}
 
 	return result, nil
@@ -475,7 +479,7 @@ func (this *RepoSQLiteImpl) UpdateSyncSetting(_id string, _rev string, model *mo
 
 	sql := `
 	update syncsettings 
-	set _rev = ?, name = ?, type = ?, fetchUrl = ?, schedule = ?, issueUrl = ? , description = ?
+	set _rev = ?, name = ?, type = ?, fetchUrl = ?, insecureSkipVerify = ?, schedule = ?, issueUrl = ? , description = ?
 	where _id = ? and _rev = ?
 	`
 	stmt, err := db.Prepare(sql)
@@ -493,6 +497,7 @@ func (this *RepoSQLiteImpl) UpdateSyncSetting(_id string, _rev string, model *mo
 		model.Name,
 		model.Type,
 		model.FetchURL,
+		model.InsecureSkipVerify,
 		model.Schedule,
 		model.IssueURL,
 		model.Description,
@@ -523,7 +528,7 @@ func (this *RepoSQLiteImpl) QuerySyncSettings(query map[string]string) (*QuerySy
 	// TODO filter by query
 	sql := `
 	select
-		_id, _rev, name, type, fetchUrl, schedule, issueUrl, description
+		_id, _rev, name, type, fetchUrl, insecureSkipVerify, schedule, issueUrl, description
 	from syncsettings
 	`
 	stmt, err := db.Prepare(sql)
@@ -551,21 +556,23 @@ func (this *RepoSQLiteImpl) QuerySyncSettings(query map[string]string) (*QuerySy
 		var name string
 		var syncType string
 		var fetchURL string
+		var insecureSkipVerify bool
 		var schedule string
 		var issueURL string
 		var description string
 
-		rows.Scan(&_id, &_rev, &name, &syncType, &fetchURL, &schedule, &issueURL, &description)
+		rows.Scan(&_id, &_rev, &name, &syncType, &fetchURL, &insecureSkipVerify, &schedule, &issueURL, &description)
 
 		result := &model.SyncSetting{
-			ID:          _id,
-			Rev:         _rev,
-			Name:        name,
-			Type:        syncType,
-			FetchURL:    fetchURL,
-			Schedule:    schedule,
-			IssueURL:    issueURL,
-			Description: description,
+			ID:                 _id,
+			Rev:                _rev,
+			Name:               name,
+			Type:               syncType,
+			FetchURL:           fetchURL,
+			InsecureSkipVerify: insecureSkipVerify,
+			Schedule:           schedule,
+			IssueURL:           issueURL,
+			Description:        description,
 		}
 		queryResult.Result = append(queryResult.Result, result)
 	}
@@ -582,7 +589,7 @@ func (this *RepoSQLiteImpl) FindByName(name string) (*model.SyncSetting, error) 
 
 	sql := `
 	select
-		_id, _rev, name, type, fetchUrl, schedule, issueUrl, description
+		_id, _rev, name, type, fetchUrl, insecureSkipVerify, schedule, issueUrl, description
 	from syncsettings
 	where name = ?
 	`
@@ -598,25 +605,27 @@ func (this *RepoSQLiteImpl) FindByName(name string) (*model.SyncSetting, error) 
 	var _rev string
 	var syncType string
 	var fetchURL string
+	var insecureSkipVerify bool
 	var schedule string
 	var issueURL string
 	var description string
 
-	err = stmt.QueryRow(name).Scan(&_id, &_rev, &name, &syncType, &fetchURL, &schedule, &issueURL, &description)
+	err = stmt.QueryRow(name).Scan(&_id, &_rev, &name, &syncType, &fetchURL, &insecureSkipVerify, &schedule, &issueURL, &description)
 	if err != nil {
 		log.Printf("%q: %s\n", err, sql)
 		return nil, err
 	}
 
 	result := &model.SyncSetting{
-		ID:          _id,
-		Rev:         _rev,
-		Name:        name,
-		Type:        syncType,
-		FetchURL:    fetchURL,
-		Schedule:    schedule,
-		IssueURL:    issueURL,
-		Description: description,
+		ID:                 _id,
+		Rev:                _rev,
+		Name:               name,
+		Type:               syncType,
+		FetchURL:           fetchURL,
+		InsecureSkipVerify: insecureSkipVerify,
+		Schedule:           schedule,
+		IssueURL:           issueURL,
+		Description:        description,
 	}
 
 	return result, nil
