@@ -6,10 +6,10 @@ build:
        code: |
           # instll latest nodejs
           sudo apt-get update
-          sudo apt-get install software-properties-common
+          sudo apt-get install -y software-properties-common
           sudo add-apt-repository -y ppa:chris-lea/node.js
 
-          sudo apt-get install nodejs
+          sudo apt-get install -y nodejs
           node --version
           sudo npm config set registry http://registry.npmjs.org/
           sudo npm update
