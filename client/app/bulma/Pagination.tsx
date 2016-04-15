@@ -6,19 +6,23 @@ interface Props extends React.Props<Pagination> {
     onChange: (nextPage: number) => void
     paddingTop?: number;
     paddingBottom?: number;
+    maxButtons?: number;
 }
 
 export class Pagination extends React.Component<Props, any> {
     static defaultProps = {
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        maxButtons: 10
     };
 
     render() {
         const { pageSize, currentPage, paddingTop, paddingBottom } = this.props;
 
         const pages = [];
-        for (let i = 0; i < pageSize; i++) {
+        const [start, end] = this.resolveDisplayPage();
+
+        for (let i = start; i < end; i++) {
             pages[i] = {
                 label: i + 1
             };
@@ -44,6 +48,11 @@ export class Pagination extends React.Component<Props, any> {
                     <li >
                         <a className='icon' onClick={this.handlePrev} disabled={isFirst}><i className='fa fa-angle-left'></i></a>
                     </li>
+                    { start > 0 &&
+                        <li >
+                            <p>...</p>
+                        </li>
+                    }
                     { pages.map((x, index) => {
                         const isActive = x.active === true ? 'is-active' : '';
                         return (
@@ -52,6 +61,11 @@ export class Pagination extends React.Component<Props, any> {
                             </li>
                         )
                     }) }
+                    { end < pageSize &&
+                        <li >
+                            <p>...</p>
+                        </li>
+                    }
                     <li >
                         <a className='icon' onClick={this.handleNext} disabled={isLast}><i className='fa fa-angle-right'></i></a>
                     </li>
@@ -61,6 +75,26 @@ export class Pagination extends React.Component<Props, any> {
                 </ul>
             </nav>
         );
+    }
+
+    resolveDisplayPage() {
+        const { pageSize, currentPage, maxButtons } = this.props;
+
+        const leftSize = Math.floor(maxButtons / 2);
+        let rightSize = maxButtons - leftSize;
+        if (leftSize + rightSize > maxButtons) {
+            rightSize -= 1;
+        }
+        let start = currentPage - leftSize;
+        let end = currentPage + rightSize;
+        if (start < 0) {
+            start = 0;
+            end = pageSize < maxButtons ? pageSize : maxButtons;
+        } else if (end > pageSize) {
+            start = pageSize - maxButtons;
+            end = pageSize;
+        }
+        return [start, end];
     }
 
     handleFirst = () => {
