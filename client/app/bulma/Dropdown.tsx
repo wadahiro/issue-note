@@ -1,7 +1,16 @@
 import * as React from 'react';
 import * as B from '../bulma';
 
-export class Dropdown extends React.Component<any, any> {
+interface Props extends React.Props<Dropdown> {
+    label?: string;
+    icon?: string;
+    position?: 'right' | 'left';
+}
+
+export class Dropdown extends React.Component<Props, any> {
+    static defaultProps = {
+        position: 'right'
+    };
     state = {
         show: false
     };
@@ -13,10 +22,11 @@ export class Dropdown extends React.Component<any, any> {
     };
 
     render() {
-        let { label, icon } = this.props;
+        let { label, icon, position } = this.props;
 
+        let iconEl;
         if (icon) {
-            icon = <i className={icon}></i>
+            iconEl = <i className={icon}></i>;
         }
 
         const open = this.state.show ? 'open' : '';
@@ -24,9 +34,9 @@ export class Dropdown extends React.Component<any, any> {
         return (
             <div className={`dropdown ${open}`}>
                 <B.Button onClick={this.toggle}>
-                    {icon}{label}
+                    {iconEl}{label}
                 </B.Button>
-                <ul className='dropdown-menu'>
+                <ul className={`dropdown-menu dropdown-menu-${position}`}>
                     {this.props.children}
                 </ul>
             </div>

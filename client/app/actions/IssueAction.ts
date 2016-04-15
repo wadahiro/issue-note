@@ -20,13 +20,18 @@ interface Update {
     issue: Issue;
 }
 
+interface Delete {
+    type: 'issue/delete';
+    issue: Issue;
+}
+
 interface Query {
     type: 'issue/query';
     query: IssueQuery;
 }
 
 
-export type Actions = GetIssues | Get | Update | Query;
+export type Actions = GetIssues | Get | Update | Delete | Query;
 
 export const Actions = {
     isGetIssues(action: Actions): action is GetIssues {
@@ -39,6 +44,10 @@ export const Actions = {
 
     isUpdate(action: Actions): action is Update {
         return action.type === 'issue/update';
+    },
+
+    isDelete(action: Actions): action is Delete {
+        return action.type === 'issue/delete';
     },
 
     isQuery(action: Actions): action is Query {
@@ -83,6 +92,19 @@ export default class IssueAction {
                     }
                 );
                 return updated;
+            });
+    }
+
+    static del(issue: Issue) {
+        return WebApi.del<Issue>(`issues/${issue._id}`, issue._rev)
+            .then(deleted => {
+                dispatcher.dispatch(
+                    {
+                        type: 'issue/delete',
+                        issue: deleted
+                    }
+                );
+                return deleted;
             });
     }
 

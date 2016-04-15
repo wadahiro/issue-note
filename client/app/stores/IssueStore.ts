@@ -31,13 +31,13 @@ class IssueStore extends ReduceStore<State> {
     getInitialState(): State {
         let keyword = '';
         let filterByChecked = true;
-        
+
         if (typeof window !== 'undefined') {
             const search = window.location.search.split('?')[1]
             if (search) {
                 const queries = search.split('&');
                 queries.forEach(x => {
-                    const [k , v] = x.split('=');
+                    const [k, v] = x.split('=');
                     if (k.toLowerCase() === 'keyword') {
                         keyword = v;
                     }
@@ -47,7 +47,7 @@ class IssueStore extends ReduceStore<State> {
                 });
             }
         }
-        
+
         return {
             issues: [],
             current: null,
@@ -79,6 +79,12 @@ class IssueStore extends ReduceStore<State> {
                     }
                     return x;
                 })
+            } as State);
+        }
+
+        if (Actions.isDelete(action)) {
+            return Object.assign({}, state, {
+                issues: state.issues.filter(x => x._id !== action.issue._id)
             } as State);
         }
 

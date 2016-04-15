@@ -132,13 +132,14 @@ export class Table extends React.Component<TableProps, any> {
                 tdStyle.wordBreak = 'break-all';
 
                 const value = getValue(x, col.name);
-                if (typeof value === 'undefined') {
-                    return <td key={col.name} style={tdStyle}></td>;
-                }
                 if (col.renderer) {
                     return <td key={col.name} style={tdStyle}>{col.renderer(value, x) }</td>;
                 } else {
-                    return <td key={col.name} style={tdStyle}>{value}</td>;
+                    if (value === undefined) {
+                        return <td key={col.name} style={tdStyle}></td>;
+                    } else {
+                        return <td key={col.name} style={tdStyle}>{value}</td>;
+                    }
                 }
             });
             const key = x[rowKey] as string;
