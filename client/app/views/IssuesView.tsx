@@ -32,7 +32,7 @@ class IssuesView extends React.Component<any, State> {
         // do search
         if (!prevState || prevState.query !== nextState.query) {
             // change browser url for bookmarkable search page
-            const keyword = nextState.query.keyword;
+            const keyword = nextState.query.keyword || '';
             const filterByChecked = nextState.query.filterByChecked;
             // TODO resolve warning as below
             // warning.js:45 Warning: setState(...): Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.

@@ -264,8 +264,42 @@ func (this *RepoSQLiteImpl) UpdateIssue(_id string, _rev string, model *model.Is
 }
 
 func (this *RepoSQLiteImpl) DeleteIssue(_id string, _rev string) (*model.Issue, error) {
-	// TODO
-	return nil, fmt.Errorf("Not Implemented")
+	current, err := this.ReadIssue(_id)
+	if err != nil {
+		return nil, err
+	}
+
+	db := this.Conn
+
+	sql := `
+	delete from issues
+	where _id = ? and _rev = ?
+	`
+	stmt, err := db.Prepare(sql)
+	if err != nil {
+		log.Printf("%q: %s\n", err, sql)
+		return nil, err
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(
+		_id,
+		_rev,
+	)
+
+	if err != nil {
+		log.Printf("%q: %s\n", err, sql)
+		return nil, err
+	}
+
+	count, _ := result.RowsAffected()
+	if count == 0 {
+		// TODO notfound error
+		conflictErr := fmt.Errorf("Conflict revision")
+		return nil, conflictErr
+	}
+
+	return current, nil
 }
 
 func (this *RepoSQLiteImpl) QueryIssues(query map[string]string) (*QueryIssuesResult, error) {
@@ -516,8 +550,42 @@ func (this *RepoSQLiteImpl) UpdateSyncSetting(_id string, _rev string, model *mo
 }
 
 func (this *RepoSQLiteImpl) DeleteSyncSetting(_id string, _rev string) (*model.SyncSetting, error) {
-	// TODO
-	return nil, fmt.Errorf("Not Implemented")
+	current, err := this.ReadSyncSetting(_id)
+	if err != nil {
+		return nil, err
+	}
+
+	db := this.Conn
+
+	sql := `
+	delete from syncsettings
+	where _id = ? and _rev = ?
+	`
+	stmt, err := db.Prepare(sql)
+	if err != nil {
+		log.Printf("%q: %s\n", err, sql)
+		return nil, err
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(
+		_id,
+		_rev,
+	)
+
+	if err != nil {
+		log.Printf("%q: %s\n", err, sql)
+		return nil, err
+	}
+
+	count, _ := result.RowsAffected()
+	if count == 0 {
+		// TODO notfound error
+		conflictErr := fmt.Errorf("Conflict revision")
+		return nil, conflictErr
+	}
+
+	return current, nil
 }
 
 func (this *RepoSQLiteImpl) QuerySyncSettings(query map[string]string) (*QuerySyncSettingsResult, error) {

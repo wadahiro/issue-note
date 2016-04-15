@@ -33,10 +33,10 @@ export abstract class FormModal extends React.Component<any, any> {
                     {this.renderForm() }
 
                     { showButtons &&
-                        <p className='control'>
+                        <B.ButtonGroup>
                             <B.Button type='primary' onClick={this.doSubmit}>{submitLabel}</B.Button>
                             <B.Button onClick={onHide}>{cancelLabel}</B.Button>
-                        </p>
+                        </B.ButtonGroup>
                     }
                 </B.Box>
             </B.Modal>

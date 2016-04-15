@@ -80,7 +80,7 @@ func SyncSettingDelete(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.AbortWithStatus(500)
+		c.AbortWithStatus(404)
 		return
 	}
 

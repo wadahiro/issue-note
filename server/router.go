@@ -44,9 +44,17 @@ func initRouter(repo repo.Repo, port string, debugMode bool) {
 	apiPrefix := "/api/v1/"
 
 	// add API routes
+	r.GET(apiPrefix+"version", func(c *gin.Context) {
+		c.JSON(200, map[string]string{
+			"version":    Version,
+			"commitHash": CommitHash,
+		})
+	})
+
 	r.GET(apiPrefix+"issues", controller.IssueIndex)
 	r.GET(apiPrefix+"issues/:_id", controller.IssueRead)
 	r.POST(apiPrefix+"issues", controller.IssueCreate)
+	r.PUT(apiPrefix+"issues/:id", controller.IssueUpdate)
 	r.DELETE(apiPrefix+"issues/:_id", controller.IssueDelete)
 
 	r.PUT(apiPrefix+"checked/:_id", controller.IssueCheckedUpdate)

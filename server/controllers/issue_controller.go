@@ -128,7 +128,11 @@ func IssueDelete(c *gin.Context) {
 
 	repo := getRepo(c)
 
-	deleted, _ := repo.DeleteIssue(_id, _rev)
+	deleted, err := repo.DeleteIssue(_id, _rev)
+	if err != nil {
+		c.AbortWithStatus(404)
+		return		
+	}
 
 	c.JSON(200, deleted)
 }

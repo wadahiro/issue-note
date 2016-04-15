@@ -46,8 +46,10 @@ func main() {
 }
 
 func RunServer(c *cli.Context) {
-	log.Println("COMMIT_HASH: ", CommitHash)
+	log.Println("-------------- ISSUE-MEMO --------------")
 	log.Println("VERSION: ", Version)
+	log.Println("COMMIT_HASH: ", CommitHash)
+	log.Println("----------------------------------------")
 
 	if err := os.MkdirAll(DATA_DIR, 0644); err != nil {
 		log.Fatalln(err)

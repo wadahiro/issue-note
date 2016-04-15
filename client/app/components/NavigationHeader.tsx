@@ -20,7 +20,7 @@ export default class NavigationHeader extends React.Component<any, any> {
                         <SearchInput />
                     </B.HeaderItem>
                     <B.HeaderItem key='settings'>
-                        <B.Dropdown icon='fa fa-cog'>
+                        <B.Dropdown icon='fa fa-cog' position='left'>
                             {settings}
                         </B.Dropdown>
                     </B.HeaderItem>

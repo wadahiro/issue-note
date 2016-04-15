@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import * as B from '../bulma';
 import IssueAction from '../actions/IssueAction';
 import EditableInput from '../components/EditableInput';
+import DeleteIssueModal from '../components/DeleteIssueModal';
 
 export default class IssueTable extends React.Component<any, any> {
     render() {
@@ -71,6 +72,12 @@ const columnMetadata = [
         name: 'summary',
         label: 'Summary',
         width: '25em'
+    },
+    {
+        name: '_action',
+        label: 'Action',
+        width: '5em',
+        renderer: action
     }
 ];
 
@@ -98,7 +105,10 @@ function editableTextArea(value, values) {
             _rev: values['_rev'],
             memo: newValue
         }
-        return IssueAction.updateMemo(issueMemo);
+        return IssueAction.updateMemo(issueMemo)
+            .then(result => {
+                return result.memo;
+            });
     };
     return (
         <EditableInput value={value} rows={20} onSave={onSave} />
@@ -128,6 +138,24 @@ function pre(value, values) {
     return <pre>{value}</pre>;
 }
 
+function action(value, values) {
+    const style = {
+        width: 34
+    };
+
+    return (
+        <div style={style}>
+            <B.Dropdown icon='fa fa-bars' position='left'>
+                <B.DropdownItem>
+                    <B.ModalTriggerLink
+                        modal={<DeleteIssueModal issue={values} />}>
+                        Delete
+                    </B.ModalTriggerLink>
+                </B.DropdownItem>
+            </B.Dropdown>
+        </div>
+    );
+}
 
 function tagStatus(value, values) {
     switch (value) {
