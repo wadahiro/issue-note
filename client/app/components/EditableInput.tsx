@@ -20,6 +20,7 @@ export default class EditableInput extends React.Component<Props, any> {
     };
     state = {
         value: this.props.value || '',
+        origValue: this.props.value || '',
         editing: false
     };
     textArea = null;
@@ -38,7 +39,7 @@ export default class EditableInput extends React.Component<Props, any> {
                         name={name}
                         value={this.state.value}
                         rows={rows}
-                        onBlur={this.save}
+                        onBlur={this.handleOnBlur}
                         onChange={this.handleChange} />
                 </p>
             );
@@ -73,11 +74,19 @@ export default class EditableInput extends React.Component<Props, any> {
         });
     };
 
-    save = (e) => {
-        this.props.onSave(this.state.value)
-            .then(x => {
-                this.setState({ editing: false });
-            });
+    handleOnBlur = (e) => {
+        if (this.state.value !== this.state.origValue) {
+            this.props.onSave(this.state.value)
+                .then(x => {
+                    this.setState({
+                        editing: false,
+                        origValue: x,
+                        value: x
+                    });
+                });
+        } else {
+            this.setState({ editing: false });
+        }
     };
 
     handleChange = (e) => {

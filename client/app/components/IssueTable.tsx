@@ -98,7 +98,10 @@ function editableTextArea(value, values) {
             _rev: values['_rev'],
             memo: newValue
         }
-        return IssueAction.updateMemo(issueMemo);
+        return IssueAction.updateMemo(issueMemo)
+            .then(result => {
+                return result.memo;  
+            });
     };
     return (
         <EditableInput value={value} rows={20} onSave={onSave} />
