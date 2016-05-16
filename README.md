@@ -18,13 +18,13 @@ Currently support [Atlassian JIRA](https://jira.atlassian.com) only.
 
 ## How to use
 ### Install
-It can be super easy to install ! You can get a binary file from [Release Page](https://github.com/wadahiro/issue-memo/releases).
+It can be super easy to install ! You can get a binary file from [Release Page](https://github.com/wadahiro/issue-note/releases).
 Then uncompress the file and execute it with **run** argument. That's all !!
 In addition, you can specify a port number of HTTP server like **--port 8000** option.
 
 ```
-tar xvf issue-memo-x.y.z-linux-amd64.tar.gz
-./issue-memo-x.y.z-linux-amd64 --port 8000 run
+tar xvf issue-note-x.y.z-linux-amd64.tar.gz
+./issue-note-x.y.z-linux-amd64 --port 8000 run
 COMMIT_HASH:  ...
 VERSION:  x.y.z
 Started sync schduler...
