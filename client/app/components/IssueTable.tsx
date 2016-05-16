@@ -45,7 +45,7 @@ const columnMetadata = [
     },
     {
         name: 'memo',
-        label: 'Memo',
+        label: 'Note',
         width: '30em',
         editable: true,
         renderer: editableTextArea

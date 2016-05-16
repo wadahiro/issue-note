@@ -7,8 +7,8 @@ import (
 	"strconv"
 
 	"github.com/codegangsta/cli"
-	"github.com/wadahiro/issue-memo/server/repos"
-	"github.com/wadahiro/issue-memo/server/services"
+	"github.com/wadahiro/issue-note/server/repos"
+	"github.com/wadahiro/issue-note/server/services"
 )
 
 var CommitHash = "WORKSPACE" // inject by LDFLAGS build option
@@ -22,7 +22,7 @@ func main() {
 		RunServer(nil)
 	} else {
 		app := cli.NewApp()
-		app.Name = "ISSUE-MEMO"
+		app.Name = "ISSUE-NOTE"
 		app.Version = Version
 		app.Usage = ""
 		app.Author = "Hiroyuki Wada"
@@ -30,7 +30,7 @@ func main() {
 		app.Commands = []cli.Command{
 			{
 				Name:   "run",
-				Usage:  "Runs issue-memo server",
+				Usage:  "Runs issue-note server",
 				Action: RunServer,
 			},
 		}
@@ -46,7 +46,7 @@ func main() {
 }
 
 func RunServer(c *cli.Context) {
-	log.Println("-------------- ISSUE-MEMO --------------")
+	log.Println("-------------- ISSUE-NOTE --------------")
 	log.Println("VERSION: ", Version)
 	log.Println("COMMIT_HASH: ", CommitHash)
 	log.Println("----------------------------------------")
@@ -68,5 +68,5 @@ func RunServer(c *cli.Context) {
 	}
 	initRouter(repo, port, debugMode)
 
-	log.Println("Started ISSUE-MEMO")
+	log.Println("Started ISSUE-NOTE")
 }

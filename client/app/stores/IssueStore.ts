@@ -14,6 +14,8 @@ export interface Issue {
     created?: string;
     updated?: string;
     memo?: string;
+    checked?: boolean;
+    checkedDate?: string;
 }
 
 export interface IssueQuery {
@@ -93,6 +95,20 @@ class IssueStore extends ReduceStore<State> {
                 query: Object.assign({}, state.query, action.query)
             } as State);
         }
+
+        if (Actions.isCheckAllNotedIssuesAction(action)) {
+            return Object.assign({}, state, {
+                issues: state.issues.map(x => {
+                    const found = action.issues.find(issue => x._id === issue._id);
+                    if (found) {
+                        x.checked = found.checked;
+                        x.checkedDate = found.checkedDate;
+                    }
+                    return x;
+                })
+            } as State);
+        }
+
 
         return state;
     }

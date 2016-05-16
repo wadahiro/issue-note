@@ -17,10 +17,10 @@ vendor/bin/go-bindata -o ./server/bindata.go assets/... ./server/templates/...
 vendor/bin/gox -cgo \
  -ldflags "-X main.CommitHash=$COMMIT_HASH -X main.Version=$VERSION -X main.BuildTarget=production" \
  -osarch="$1/$2" \
- -output=dist/issue-memo-${VERSION}-{{.OS}}-{{.Arch}} \
+ -output=dist/issue-note-${VERSION}-{{.OS}}-{{.Arch}} \
  ./server/...
 
 mkdir dist
 pushd dist
-tar cv issue-memo-${VERSION}-$1-$2* | gzip > issue-memo-${VERSION}-$1-$2.tar.gz
+tar cv issue-note-${VERSION}-$1-$2* | gzip > issue-note-${VERSION}-$1-$2.tar.gz
 popd

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/wadahiro/issue-memo/server/models"
-	"github.com/wadahiro/issue-memo/server/repos"
+	"github.com/wadahiro/issue-note/server/models"
+	"github.com/wadahiro/issue-note/server/repos"
 )
 
 func IssueIndex(c *gin.Context) {
@@ -96,6 +96,35 @@ func IssueCheckedUpdate(c *gin.Context) {
 	c.JSON(200, result)
 }
 
+func IssueCheckedUpdateAll(c *gin.Context) {
+	actionId, _ := c.GetQuery("_action")
+
+	if actionId != "allNotedIssues" {
+		c.AbortWithStatus(400)
+		return
+	}
+
+	r := getRepo(c)
+
+	query := map[string]string{}
+
+	query["checked$and$eq"] = "0"
+	query["memo$and$neq"] = ""
+
+	results, _ := r.QueryIssues(query)
+	
+	now := time.Now().Format(repo.JIRA_DATE_FORMAT)
+	
+	for _, issue := range results.Result {
+		issue.Checked = true
+		issue.CheckedDate = now
+
+		r.UpdateIssue(issue.ID, issue.Rev, issue)
+	}
+
+	c.JSON(200, results.Result)
+}
+
 func IssueMemoUpdate(c *gin.Context) {
 	var issueMemo model.IssueMemo
 
@@ -131,7 +160,7 @@ func IssueDelete(c *gin.Context) {
 	deleted, err := repo.DeleteIssue(_id, _rev)
 	if err != nil {
 		c.AbortWithStatus(404)
-		return		
+		return
 	}
 
 	c.JSON(200, deleted)

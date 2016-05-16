@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/wadahiro/issue-memo/server/models"
-	"github.com/wadahiro/issue-memo/server/repos"
+	"github.com/wadahiro/issue-note/server/models"
+	"github.com/wadahiro/issue-note/server/repos"
 )
 
 type JiraResponse struct {

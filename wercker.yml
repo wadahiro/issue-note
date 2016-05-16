@@ -49,7 +49,7 @@ build:
         code: |
           export RELEASE_TAG=$(node -pe 'require("./package.json").version')
           echo "${RELEASE_TAG}" > $WERCKER_OUTPUT_DIR/.release_tag
-          mv dist/issue-memo-${RELEASE_TAG}-* $WERCKER_OUTPUT_DIR/
+          mv dist/issue-note-${RELEASE_TAG}-* $WERCKER_OUTPUT_DIR/
 deploy:
   steps:
     - script:
@@ -67,4 +67,4 @@ deploy:
         tag: v${RELEASE_TAG}
     - wercker/github-upload-asset:
         token: $GITHUB_TOKEN
-        file: issue-memo-${RELEASE_TAG}-linux-amd64.tar.gz
+        file: issue-note-${RELEASE_TAG}-linux-amd64.tar.gz

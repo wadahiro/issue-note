@@ -91,6 +91,10 @@ export default class WebApi {
             .then(this.toJson);
     }
 
+    static action<T>(resource: string, actionId: string, values?: Object): Promise<T> {
+        return this.post(`${resource}?_action=${actionId}`, values);
+    }
+
     // Utils
     static toText(response) {
         return response.text();

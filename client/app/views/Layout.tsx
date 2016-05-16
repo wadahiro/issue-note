@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router'
 import * as B from '../bulma';
 import SyncSettingsModal from '../components/SyncSettingsModal';
+import CheckAllNotedIssuesModal from '../components/CheckAllNotedIssuesModal';
 import NavigationHeader from '../components/NavigationHeader';
 import WebApi from '../api/WebApi';
 
@@ -42,7 +43,7 @@ export default class Layout extends React.Component<any, State> {
                 </B.Section>
                 <B.Footer>
                     <p>
-                        <strong>issue-memo</strong> by <a href="https://github.com/wadahiro"> @wadahiro</a>.The source code is licensed <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+                        <strong>issue-note</strong> by <a href="https://github.com/wadahiro"> @wadahiro</a>.The source code is licensed <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
                     </p>
                     { versionInfo &&
                         <p>
@@ -50,7 +51,7 @@ export default class Layout extends React.Component<any, State> {
                         </p>
                     }
                     <p>
-                        <a className="icon" href="https://github.com/wadahiro/issue-memo">
+                        <a className="icon" href="https://github.com/wadahiro/issue-note">
                             <i className="fa fa-github"></i>
                         </a>
                     </p>
@@ -63,13 +64,20 @@ export default class Layout extends React.Component<any, State> {
 const LEFT_NAV = [
     {
         name: 'home',
-        label: 'ISSUE-MEMO',
+        label: 'ISSUE-NOTE',
         link: '/',
         roles: ['user']
     }
 ];
 
 const RIGHT_NAV = [
+    {
+        name: 'checkAllNotedIssue',
+        label: 'Check all noted issues',
+        type: 'button',
+        modal: <CheckAllNotedIssuesModal />,
+        roles: ['user']
+    }
 ];
 
 const SETTINGS = [

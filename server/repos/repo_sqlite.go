@@ -12,14 +12,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/nu7hatch/gouuid"
 
-	"github.com/wadahiro/issue-memo/server/models"
+	"github.com/wadahiro/issue-note/server/models"
 )
 
 // TODO
 const JIRA_DATE_FORMAT = "2006-01-02T15:04:05.000-0700"
 
 func InitSQLite(dataDir string) Repo {
-	db, err := sql.Open("sqlite3", dataDir+"/issue-memo.db")
+	db, err := sql.Open("sqlite3", dataDir+"/issue-note.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -329,6 +329,14 @@ func (this *RepoSQLiteImpl) QueryIssues(query map[string]string) (*QueryIssuesRe
 				filterAndValues = append(filterAndValues, v)
 			} else {
 				filterOrKeys = append(filterOrKeys, " i."+slice[0]+" = ?")
+				filterOrValues = append(filterOrValues, v)
+			}
+		} else if slice[2] == "neq" {
+			if slice[1] == "and" {
+				filterAndKeys = append(filterAndKeys, " i."+slice[0]+" != ?")
+				filterAndValues = append(filterAndValues, v)
+			} else {
+				filterOrKeys = append(filterOrKeys, " i."+slice[0]+" != ?")
 				filterOrValues = append(filterOrValues, v)
 			}
 		} else {

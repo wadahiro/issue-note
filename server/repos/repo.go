@@ -1,6 +1,6 @@
 package repo
 
-import "github.com/wadahiro/issue-memo/server/models"
+import "github.com/wadahiro/issue-note/server/models"
 
 type Repo interface {
 	CreateIssue(_id string, model *model.Issue) (*model.Issue, error)

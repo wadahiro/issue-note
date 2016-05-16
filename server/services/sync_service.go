@@ -6,9 +6,9 @@ import (
 	"sync"
 
 	"github.com/robfig/cron"
-	"github.com/wadahiro/issue-memo/server/connectors"
-	"github.com/wadahiro/issue-memo/server/models"
-	"github.com/wadahiro/issue-memo/server/repos"
+	"github.com/wadahiro/issue-note/server/connectors"
+	"github.com/wadahiro/issue-note/server/models"
+	"github.com/wadahiro/issue-note/server/repos"
 )
 
 var mutex = new(sync.Mutex)

@@ -1,4 +1,4 @@
-# ISSUE-MEMO
+# ISSUE-NOTE
 
 - [About](#about)
 - [How to use](#how-to-use)
@@ -13,7 +13,7 @@
 
 ## About
 
-Aggregate issues from external [Issue Tracking System (ITS)](https://en.wikipedia.org/wiki/Issue_tracking_system) and add your own memo.
+Aggregate issues from external [Issue Tracking System (ITS)](https://en.wikipedia.org/wiki/Issue_tracking_system) and add your own note.
 Currently support [Atlassian JIRA](https://jira.atlassian.com) only.
 
 ## How to use
