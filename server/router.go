@@ -12,8 +12,8 @@ import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/nu7hatch/gouuid"
-	"github.com/wadahiro/issue-memo/server/controllers"
-	"github.com/wadahiro/issue-memo/server/repos"
+	"github.com/wadahiro/issue-note/server/controllers"
+	"github.com/wadahiro/issue-note/server/repos"
 )
 
 func initRouter(repo repo.Repo, port string, debugMode bool) {

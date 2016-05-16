@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/wadahiro/issue-memo/server/models"
-	"github.com/wadahiro/issue-memo/server/services"
+	"github.com/wadahiro/issue-note/server/models"
+	"github.com/wadahiro/issue-note/server/services"
 )
 
 func SyncSettingIndex(c *gin.Context) {

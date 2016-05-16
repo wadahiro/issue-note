@@ -12,14 +12,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/nu7hatch/gouuid"
 
-	"github.com/wadahiro/issue-memo/server/models"
+	"github.com/wadahiro/issue-note/server/models"
 )
 
 // TODO
 const JIRA_DATE_FORMAT = "2006-01-02T15:04:05.000-0700"
 
 func InitSQLite(dataDir string) Repo {
-	db, err := sql.Open("sqlite3", dataDir+"/issue-memo.db")
+	db, err := sql.Open("sqlite3", dataDir+"/issue-note.db")
 	if err != nil {
 		log.Fatal(err)
 	}

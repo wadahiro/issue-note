@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/wadahiro/issue-memo/server/models"
-	"github.com/wadahiro/issue-memo/server/repos"
+	"github.com/wadahiro/issue-note/server/models"
+	"github.com/wadahiro/issue-note/server/repos"
 )
 
 func IssueIndex(c *gin.Context) {
