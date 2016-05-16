@@ -30,8 +30,13 @@ interface Query {
     query: IssueQuery;
 }
 
+interface CheckAllNotedIssuesAction {
+    type: 'issue/checkAllNotedIssues';
+    issues: Issue[];
+}
 
-export type Actions = GetIssues | Get | Update | Delete | Query;
+
+export type Actions = GetIssues | Get | Update | Delete | Query | CheckAllNotedIssuesAction;
 
 export const Actions = {
     isGetIssues(action: Actions): action is GetIssues {
@@ -52,6 +57,10 @@ export const Actions = {
 
     isQuery(action: Actions): action is Query {
         return action.type === 'issue/query';
+    },
+
+    isCheckAllNotedIssuesAction(action: Actions): action is CheckAllNotedIssuesAction {
+        return action.type === 'issue/checkAllNotedIssues';
     }
 }
 
@@ -121,7 +130,7 @@ export default class IssueAction {
             })
             .catch(err => {
                 // TODO notify error
-            })
+            });
     }
 
     static updateChecked(patchIssue: Issue) {
@@ -137,7 +146,23 @@ export default class IssueAction {
             })
             .catch(err => {
                 // TODO notify error
+            });
+    }
+    
+    static checkAllNotedIssues() {
+        return WebApi.action<Issue[]>(`checked`, 'allNotedIssues')
+            .then(results => {
+                dispatcher.dispatch(
+                    {
+                        type: 'issue/checkAllNotedIssues',
+                        issues: results
+                    }
+                );
+                return results;
             })
+            .catch(err => {
+                // TODO notify error
+            });        
     }
 
     static search(query: IssueQuery) {

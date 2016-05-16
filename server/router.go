@@ -57,6 +57,7 @@ func initRouter(repo repo.Repo, port string, debugMode bool) {
 	r.PUT(apiPrefix+"issues/:id", controller.IssueUpdate)
 	r.DELETE(apiPrefix+"issues/:_id", controller.IssueDelete)
 
+	r.POST(apiPrefix+"checked", controller.IssueCheckedUpdateAll)
 	r.PUT(apiPrefix+"checked/:_id", controller.IssueCheckedUpdate)
 	r.PUT(apiPrefix+"memo/:_id", controller.IssueMemoUpdate)
 

@@ -331,6 +331,14 @@ func (this *RepoSQLiteImpl) QueryIssues(query map[string]string) (*QueryIssuesRe
 				filterOrKeys = append(filterOrKeys, " i."+slice[0]+" = ?")
 				filterOrValues = append(filterOrValues, v)
 			}
+		} else if slice[2] == "neq" {
+			if slice[1] == "and" {
+				filterAndKeys = append(filterAndKeys, " i."+slice[0]+" != ?")
+				filterAndValues = append(filterAndValues, v)
+			} else {
+				filterOrKeys = append(filterOrKeys, " i."+slice[0]+" != ?")
+				filterOrValues = append(filterOrValues, v)
+			}
 		} else {
 			if slice[1] == "and" {
 				filterAndKeys = append(filterAndKeys, " i."+slice[0]+" like ?")

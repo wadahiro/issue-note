@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router'
 import * as B from '../bulma';
 import SyncSettingsModal from '../components/SyncSettingsModal';
+import CheckAllNotedIssuesModal from '../components/CheckAllNotedIssuesModal';
 import NavigationHeader from '../components/NavigationHeader';
 import WebApi from '../api/WebApi';
 
@@ -70,6 +71,13 @@ const LEFT_NAV = [
 ];
 
 const RIGHT_NAV = [
+    {
+        name: 'checkAllNotedIssue',
+        label: 'Check all noted issues',
+        type: 'button',
+        modal: <CheckAllNotedIssuesModal />,
+        roles: ['user']
+    }
 ];
 
 const SETTINGS = [
